@@ -124,6 +124,27 @@ def update_sales_worksheet(data):
     # progress update
     print("Sales worksheet updated successfully.\n")
 
+
+def update_surplus_worksheet(data):
+
+    """
+    Update sales worksheet, add new row with the list data provided
+    """
+
+    # good practise to have prints like this so you know at what opoint code breaks
+    print("Updating surplus worksheet...\n")
+
+    # assign to variable current sales data from the linked worksheet API
+    surplus_worksheet = SHEET.worksheet("surplus")
+
+    # append row "gspread" method adds a new row to the end of our data in the worksheet selected.  
+    # new data is from variable data passed through in this function
+    surplus_worksheet.append_row(data)
+
+    # progress update
+    print("Surplus worksheet updated successfully.\n")
+
+
 def calculate_surplus_data(sales_row):
     """
     Compare sales with stock and calculate the surplus for each item type.
@@ -160,6 +181,11 @@ def calculate_surplus_data(sales_row):
 
     # ---------------- print(F'DELETEME = Result from calculate_surplus_data function from stock  tab: {stock_row}')
 
+
+
+
+
+
 def main():
     # assign the final results to data variable by calling get_sales_data function
     data = get_sales_data()
@@ -174,10 +200,12 @@ def main():
     # call update function and pass through final sales_data variable
     update_sales_worksheet(sales_data)
 
-     # call update function and pass through final sales_data variable
+     # assign funcion results to variable and call update function and pass through final sales_data variable
     new_surplus_data = calculate_surplus_data(sales_data)
 
-    print(new_surplus_data)
+    # print(new_surplus_data)
+
+    update_surplus_worksheet(new_surplus_data)
 
 print("Welcome to Love Sandwiches Data Automation")
 main()

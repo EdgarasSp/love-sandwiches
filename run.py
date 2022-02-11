@@ -32,12 +32,17 @@ data = sales.get_all_values()
 print(data)    """
 
 def get_sales_data():
+       
     """
     Get sales figures input from the user.
-    
+    Run a while loop to collect a valid string of data from the user
+    via the terminal, which must be a string of 6 numbers separated
+    by commas. The loop will repeatedly request data, until it is valid.
     """
+    
     #Infinity loope until valid data is entered
     while True:
+    
     
         print("Please enter sales data from the last market.")
         print("Data should be six numbers, separated by commas.")
@@ -70,7 +75,7 @@ def get_sales_data():
 
 
 def validate_data(values):
-    
+
     # this now prints entered values from not from first but second function 
     print(f"DELETEME = Print from validate_data function: {values}")
 
@@ -102,8 +107,35 @@ def validate_data(values):
     # returns true if no errors in the code, and tells to stop the get_sales_data loop
     return True
 
-# assign the final results to data variable
+# new function to update excel and passing variable data for values
+def update_sales_worksheet(data):
+
+    """
+    Update sales worksheet, add new row with the list data provided
+    """
+
+    # good practise to have prints like this so you know at what opoint code breaks
+    print("Updating sales worksheet...\n")
+
+    #assign to variable current sales data from the linked worksheet API
+    sales_worksheet = SHEET.worksheet("sales")
+
+    # append row "gspread" method adds a new row to the end of our data in the worksheet selected.  
+    # new data is from variable data passed through in this function
+    sales_worksheet.append_row(data)
+
+    #progress update
+    print("Sales worksheet updated sucsessfully.\n")
+
+# assign the final results to data variable by calling get_sales_data function
 data = get_sales_data()
 
+# show values from data variable before ind conversion from string
 print(F'DELETEME = Result from get_sales data function after validation etc...: {data}')
 
+sales_data = [int(num) for num in data]
+# show values from data variable after ind conversion
+print(F'DELETEME = Result from data variable conversion: {sales_data}')
+
+# call update function and pass through final sales_data variable
+update_sales_worksheet(sales_data)

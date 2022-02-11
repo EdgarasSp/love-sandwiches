@@ -1,6 +1,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 
+from pprint import pprint
 # Constant variable like scope below must be written in capitals as this tells dev that this is a constant variable(will not change)
 
 SCOPE = [
@@ -125,17 +126,48 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data)
 
     #progress update
-    print("Sales worksheet updated sucsessfully.\n")
+    print("Sales worksheet updated successfully.\n")
 
-# assign the final results to data variable by calling get_sales_data function
-data = get_sales_data()
+def calculate_surplus_data(sales_data):
+    """
+    Compare sales with stock and calculate the surplus for each item type.
+    The surplus is defined as the sales figure subtracted from the stock:
+    - Positive surplus indicates waste
+    - Negative surplus indicates extra made when stock was sold out.
+    """
 
-# show values from data variable before ind conversion from string
-print(F'DELETEME = Result from get_sales data function after validation etc...: {data}')
+    # message to let user know the next step
+    print("Calculating surplus data...\n")
 
-sales_data = [int(num) for num in data]
-# show values from data variable after ind conversion
-print(F'DELETEME = Result from data variable conversion: {sales_data}')
+    # to pull the last line in the table
+    # (basically this stock management only works if stock is updated once a day, line per day)
+    stock = SHEET.worksheet("stock").get_all_values()
 
-# call update function and pass through final sales_data variable
-update_sales_worksheet(sales_data)
+    #stock[-1] is a slise method -1 means to start from back or basically last row
+    stock_row = stock[-1]
+    print(stock_row)
+
+    print(F'DELETEME = Result from calculate_surplus_data function from stock  tab: {stock_row}')
+
+ 
+
+
+def main():
+    # assign the final results to data variable by calling get_sales_data function
+    data = get_sales_data()
+
+    # show values from data variable before ind conversion from string
+    print(F'DELETEME = Result from get_sales data function after validation etc...: {data}')
+
+    sales_data = [int(num) for num in data]
+    # show values from data variable after ind conversion
+    print(F'DELETEME = Result from data variable conversion: {sales_data}')
+
+    # call update function and pass through final sales_data variable
+    update_sales_worksheet(sales_data)
+
+     # call update function and pass through final sales_data variable
+    calculate_surplus_data(sales_data)
+
+print("Welcome to Love Sandwiches Data Automation")
+main()

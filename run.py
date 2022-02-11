@@ -40,7 +40,42 @@ def get_sales_data():
     print("Example: 10,20,30,40,50,60\n")
 
     data_str = input("Enter your data here: ")
-    print(f"The data provided is {data_str}")
+
+    # to test entered data = print(f"The data provided is {data_str}")"
+
+    # split string by comma delimiter, commas are removed
+    sales_data = data_str.split(",")
+
+    # this calls new function to check/validate numbers and we pass sales_data variable
+    validate_data(sales_data)
+
+    # to check print of entered values in this function = 
+    print(f"Print from get_sales_data function: {sales_data}")
 
 
+def validate_data(values):
+    
+    # this now prints entered values from not from first but second function 
+    print(f"Print from validate_data function: {values}")
+
+    """
+    Inside the try, converts all string values into integers.
+    Raises ValueError if strings cannot be converted into int,
+    or if there aren't exactly 6 values.
+    """
+    try:
+        # if len("instancies") in variable "Values" !=(does not equil) to 6
+        if len(values) != 6:
+            #raise(create error message "valueerror" used for number check if TRUE)
+            raise ValueError(
+                #print text and output how many instancies you actualy have in variable "values"
+                f"Exactly 6 values required, you provided {len(values)}"
+            )
+            # if other non numeric error also TRUE
+            # show(valueerror code) bit assign it to E variable
+    except ValueError as e:
+        #print text and show what was the error as E, \n show in a new line
+        print(f"Invalid data: {e}, please try again.\n")
+        
 get_sales_data()
+

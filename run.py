@@ -21,6 +21,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 # open spreedsheet
 SHEET = GSPREAD_CLIENT.open('love_sandwiches')
 
+"""Below is used for testing api
 
 # open sheet linked to variable
 sales = SHEET.worksheet('sales')
@@ -28,4 +29,18 @@ sales = SHEET.worksheet('sales')
 # pulls all values from worksheet, this is gspread 'get_all_values' built in function
 data = sales.get_all_values()
 
-print(data)
+print(data)    """
+
+def get_sales_data():
+    """
+    Get sales figures input from the user.
+    """
+    print("Please enter sales data from the last market.")
+    print("Data should be six numbers, separated by commas.")
+    print("Example: 10,20,30,40,50,60\n")
+
+    data_str = input("Enter your data here: ")
+    print(f"The data provided is {data_str}")
+
+
+get_sales_data()

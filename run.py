@@ -33,7 +33,7 @@ data = sales.get_all_values()
 print(data)    """
 
 def get_sales_data():
-       
+
     """
     Get sales figures input from the user.
     Run a while loop to collect a valid string of data from the user
@@ -41,10 +41,8 @@ def get_sales_data():
     by commas. The loop will repeatedly request data, until it is valid.
     """
     
-    #Infinity loope until valid data is entered
-    while True:
-    
-    
+    #Infinity loop until valid data is entered
+    while True:  
         print("Please enter sales data from the last market.")
         print("Data should be six numbers, separated by commas.")
         print("Example: 10,20,30,40,50,60\n")
@@ -53,23 +51,21 @@ def get_sales_data():
 
         # to test entered data 
         
-        print(f"DELETEME = The data provided is {data_str}")
+        # ---------------- print(f"DELETEME = The data provided is {data_str}")
 
         # split string by comma delimiter, commas are removed
         sales_data = data_str.split(",")
 
          # to check print of entered values in this function = 
-        print(f"DELETEME = Print from get_sales_data function: {sales_data}")
+        # ---------------- print(f"DELETEME = Print from get_sales_data function: {sales_data}")
 
         # this calls new function to check/validate numbers and we pass sales_data variable
         # if this function is TRUE
         if validate_data(sales_data):
             # tel user all is ok
-            print('Data is Valid')
-            #stop this while loop
+            print('Data is Valid!')
+            # stop this while loop
             break
-
-       
 
     # returns from lopp final data captured
     return sales_data
@@ -78,7 +74,7 @@ def get_sales_data():
 def validate_data(values):
 
     # this now prints entered values from not from first but second function 
-    print(f"DELETEME = Print from validate_data function: {values}")
+    # ---------------- print(f"DELETEME = Print from validate_data function: {values}")
 
     """
     Inside the try, converts all string values into integers.
@@ -86,10 +82,10 @@ def validate_data(values):
     or if there aren't exactly 6 values.
     """
     try:
-        #Task 1
-        #FOR a "value" IN the "values" list, int(value) convert that value to a number
+        # Task 1
+        # FOR a "value" IN the "values" list, int(value) convert that value to a number
         [int(value) for value in values]
-        #Task 2
+        # Task 2
         # if len("instancies") in variable "Values" !=(does not equil) to 6
         if len(values) != 6:
             #raise(create error message "valueerror" used for number check if TRUE)
@@ -100,7 +96,7 @@ def validate_data(values):
             # if Task 1 (error i.e text entered so cant be converted) or Task 2 (TRY) is TRUE, run except
             # show(valueerror code) bit assign it to E variable
     except ValueError as e:
-        #print text and show what was the error as E, \n show in a new line
+        # print text and show what was the error as E, \n show in a new line
         print(f"Invalid data: {e}, please try again.\n")
         # returns false if code had an error and tells to continue the get_sales_data loop
         return False
@@ -125,10 +121,10 @@ def update_sales_worksheet(data):
     # new data is from variable data passed through in this function
     sales_worksheet.append_row(data)
 
-    #progress update
+    # progress update
     print("Sales worksheet updated successfully.\n")
 
-def calculate_surplus_data(sales_data):
+def calculate_surplus_data(sales_row):
     """
     Compare sales with stock and calculate the surplus for each item type.
     The surplus is defined as the sales figure subtracted from the stock:
@@ -143,31 +139,45 @@ def calculate_surplus_data(sales_data):
     # (basically this stock management only works if stock is updated once a day, line per day)
     stock = SHEET.worksheet("stock").get_all_values()
 
-    #stock[-1] is a slise method -1 means to start from back or basically last row
+    # stock[-1] is a slise method -1 means to start from back or basically last row
     stock_row = stock[-1]
-    print(stock_row)
+    print(f'stock row: {stock_row}')
+    # just printing the value passed through at function call
+    print(f'sales row: {sales_row}')
 
-    print(F'DELETEME = Result from calculate_surplus_data function from stock  tab: {stock_row}')
+    # variable where i will store new calculated values as string
+    surplus_data = [];
+    # iterate 2 lists uze ZIP, for stock and sales in zip (all tables) with data in stock_row and sales_row variables
+    for stock, sales in zip(stock_row, sales_row):
+        # difference stock minus sales stock converted from string to integer and assign result to surplus variable
+        surplus = int(stock) - sales
+        # adding to blank tuple results from surplus variable
+        surplus_data.append(surplus)
+    # print(surplus_data)
 
- 
+    # !!!!! always return final value from function !!!!!!
+    return surplus_data
 
+    # ---------------- print(F'DELETEME = Result from calculate_surplus_data function from stock  tab: {stock_row}')
 
 def main():
     # assign the final results to data variable by calling get_sales_data function
     data = get_sales_data()
 
     # show values from data variable before ind conversion from string
-    print(F'DELETEME = Result from get_sales data function after validation etc...: {data}')
+    # ---------------- print(F'DELETEME = Result from get_sales data function after validation etc...: {data}')
 
     sales_data = [int(num) for num in data]
     # show values from data variable after ind conversion
-    print(F'DELETEME = Result from data variable conversion: {sales_data}')
+    # ---------------- print(F'DELETEME = Result from data variable conversion: {sales_data}')
 
     # call update function and pass through final sales_data variable
     update_sales_worksheet(sales_data)
 
      # call update function and pass through final sales_data variable
-    calculate_surplus_data(sales_data)
+    new_surplus_data = calculate_surplus_data(sales_data)
+
+    print(new_surplus_data)
 
 print("Welcome to Love Sandwiches Data Automation")
 main()

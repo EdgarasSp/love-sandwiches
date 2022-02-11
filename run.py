@@ -105,11 +105,13 @@ def validate_data(values):
     return True
 
 # new function to update excel and passing variable data for values
+# 2 functions below before refactoring
+"""
 def update_sales_worksheet(data):
 
-    """
-    Update sales worksheet, add new row with the list data provided
-    """
+
+    # Update sales worksheet, add new row with the list data provided
+
 
     # good practise to have prints like this so you know at what opoint code breaks
     print("Updating sales worksheet...\n")
@@ -127,9 +129,9 @@ def update_sales_worksheet(data):
 
 def update_surplus_worksheet(data):
 
-    """
-    Update sales worksheet, add new row with the list data provided
-    """
+ 
+    # Update sales worksheet, add new row with the list data provided
+ 
 
     # good practise to have prints like this so you know at what opoint code breaks
     print("Updating surplus worksheet...\n")
@@ -143,6 +145,21 @@ def update_surplus_worksheet(data):
 
     # progress update
     print("Surplus worksheet updated successfully.\n")
+
+"""
+# after refactoring
+
+# added second parameter "woeksheets" which needs to be declaried at function calling
+
+def update_worksheet(data, worksheet):
+    """
+    Receives a list of integers to be inserted into a worksheet
+    Update the relevant worksheet with the data provided
+    """
+    print(f"Updating {worksheet} worksheet...\n")
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully\n")
 
 
 def calculate_surplus_data(sales_row):
@@ -198,14 +215,19 @@ def main():
     # ---------------- print(F'DELETEME = Result from data variable conversion: {sales_data}')
 
     # call update function and pass through final sales_data variable
-    update_sales_worksheet(sales_data)
+    # before refactoring """"    update_sales_worksheet(sales_data)
+    # after refactoring update function
+    update_worksheet(sales_data, "sales")
 
      # assign funcion results to variable and call update function and pass through final sales_data variable
     new_surplus_data = calculate_surplus_data(sales_data)
 
     # print(new_surplus_data)
 
-    update_surplus_worksheet(new_surplus_data)
+    # before refactoring """"    update_surplus_worksheet(new_surplus_data)
+    # after refactoring update function
+    update_worksheet(new_surplus_data, "surplus")
+
 
 print("Welcome to Love Sandwiches Data Automation")
 main()
